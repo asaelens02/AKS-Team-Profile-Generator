@@ -18,5 +18,8 @@
   "homepage": "https://github.com/asaelens02/AKS-Team-Profile-Generator#readme",
   "devDependencies": {
     "jest": "^29.0.2"
+  },
+  "dependencies": {
+    "inquirer": "^8.2.4"
   }
 }
