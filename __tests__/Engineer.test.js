@@ -10,10 +10,12 @@ test ('creates engineer object', () =>{
     expect (engineer.git).toBe('http://github.com/asaelens02');
 
 });
+
+//copied tests from my Employee.test.js/few fails due to mismatched strings of data/fixed
 test ('get engineer name',() => {
 
     const engineer = new Engineer('Billy', 'Billy@Jean.com','0002', 'http://github.com/asaelens02');
-//had trouble with this line, ref docs for toEqual and stringContaining helped 
+
     expect (engineer.getName()).toEqual(expect.stringContaining('Billy'));
 });
 
