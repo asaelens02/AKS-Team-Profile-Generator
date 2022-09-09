@@ -37,3 +37,5 @@ test ('get employee role',() => {
 
     expect (employee.getRole()).toEqual(expect.stringContaining('Employee'));
 })
+
+//passes all tests
