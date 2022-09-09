@@ -1,0 +1,22 @@
+{
+  "name": "aks-team-profile-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asaelens02/AKS-Team-Profile-Generator.git"
+  },
+  "author": "A Saelens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asaelens02/AKS-Team-Profile-Generator/issues"
+  },
+  "homepage": "https://github.com/asaelens02/AKS-Team-Profile-Generator#readme",
+  "devDependencies": {
+    "jest": "^29.0.2"
+  }
+}
