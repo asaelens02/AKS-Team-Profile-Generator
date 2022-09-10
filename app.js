@@ -100,5 +100,72 @@ const addManager = () => {
         }else{
             return Team;
         }
-    })
-}
+    });
+};
+
+    //create Employee entries
+
+    const createEmployee =()=> {
+        return inquirer
+        .prompt ([
+            {
+                type:'list',
+                name:'job',
+                message: 'Please select title of new team member from list',
+                choices: ['Intern', 'Engineer'],
+            },
+            {
+                type: 'input',
+                name: 'name', 
+                message: 'Please enter team member name',
+                validate: (nameEntry)=> {
+                    if (nameEntry){
+                        return true;
+                    }else{
+                        console.log('invalid entry, please enter team member name');
+                        return false;
+                    }
+                },
+            },
+            {
+                type: 'input',
+                name:'id',
+                message: 'Please enter team member ID number',
+                validate:(idValue)=> {
+                    if (isNan (idValue)){
+                        console.log ('invalid entry, please enter 4 digit ID');
+                        return false;
+                    }else{
+                        return true;
+                    }
+                },
+            },
+        ])
+        .then (({employee,id, email,role}) => {
+            if (role === 'Engineer'){
+                return inquirer
+                .prompt ([{
+                    type: 'input',
+                    name: 'github',
+                    message: 'Please enter employee github',
+                    validate: (gitInput) => {
+                        if(gitInput){
+                            return true;
+                        }else{
+                            console.log('invalid entry, please enter github');
+                            return false;
+                        }
+                    },
+                    {
+                        type: 'confirm',
+                        name:'addEmployee',
+                        message:'Would you like to add another person to the team?',
+                        default: false,
+                    
+                   
+                 
+                    },
+                }]);                
+            }
+        )
+    
