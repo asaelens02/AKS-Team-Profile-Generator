@@ -16,7 +16,7 @@ const Manager = require('./lib/Manager');
 //Team list (as an array)
 const Team = [];
 
-//manager questions
+//capture manager information
 
 const addManager = () => {
 
@@ -25,8 +25,8 @@ const addManager = () => {
             type: 'input',
             name:'name',
             message: 'Please enter Manager name',
-            validate: (nameInput)=> {
-                if (nameInput) {
+            validate: (nameEntry)=> {
+                if (nameEntry) {
                     return true;
                 }else{
                     console.log('invalid entry, please enter Manager name');
@@ -39,8 +39,8 @@ const addManager = () => {
             type:'input',
             name:'email',
             message:'Please enter Manager email address',
-            validate: (emailInput)=> {
-                if (emailInput){
+            validate: (emailEntry)=> {
+                if (emailEntry){
                     return true;
                 }else{
                     console.log ('invalid entry, please enter Manager email address');
@@ -54,8 +54,10 @@ const addManager = () => {
             type:'input',
             name:'id',
             message:'Please enter Manager ID',
-            validate: (idInput)=> {
-                if (isNaN (idInput)){
+            validate: (idValue)=> {
+
+                //isNaN is boolean that indicates that a value is "not a number"
+                if (isNaN (idValue)){
                     console.log('invalid entry, please enter 4 digit Manager ID');
                     return false;
                 }else{
@@ -67,8 +69,8 @@ const addManager = () => {
             type:'input',
             name:'office number',
             message: 'Please enter Manager office number',
-            validate: (officeInput)=> {
-                if (isNaN(officeInput)){
+            validate: (officeValue)=> {
+                if (isNaN(officeValue)){
                     console.log ('invalid entry, please enter Manager office number');
                     return false;
                 }else{
@@ -77,5 +79,26 @@ const addManager = () => {
             },
 
         },
+        {
+            //confirm manager entry, inquire for more entries
+            type: 'confirm',
+            name:'addEmployee',
+            message:'Would you like to add another person to the team?',
+            default: false,
+        },
     ])
+
+    //use .then to use entered data to create manager in array and add new employees
+
+    .then ((managerEntries)=> {
+        const {name, id, email, officeNumber, addEmployee} = managerEntries;
+        const manager = new Manager(name,email,id, officeNumber);
+        Team.push(manager);
+
+        if(addEmployee){
+            return newEmp (Team);
+        }else{
+            return Team;
+        }
+    })
 }
