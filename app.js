@@ -1,10 +1,10 @@
 
-
+const fs = require('fs');
 const inquirer = require('inquirer');
 
+const generatePage = require('./src/page-template');
 
-//const generatePage = require('./src/page-template');
-//const { writeFile, copyFile } = require('./utils/generate-site');
+//const  writeFile = require('./utils/generate-site');
 
 
 //Objects that have been tested
@@ -57,7 +57,7 @@ const addManager = () => {
             validate: (idValue)=> {
 
                 //isNaN is boolean that indicates that a value is "not a number"
-                if (isNaN (idValue)){
+                if (isNaN(idValue)){
                     console.log('invalid entry, please enter 4 digit Manager ID');
                     return false;
                 }else{
@@ -203,8 +203,31 @@ const addManager = () => {
     })
 
 }
+
+const writeFile = (data) => {
+    fs.writeFile("./dist/index.html", data, (err) => {
+      if (err) {
+        console.log(err);
+        return;
+      } else {
+        console.log(
+          'Team profile created'
+        );
+      }
+    });
+  };
     //calls initial function to begin questions in node 
-    addManager();                
-                   
+    addManager()                
+    .then((Team) => {
+        return generatePage(Team);
+      })
+      .then((fileHTML) => {
+        return writeFile(fileHTML);
+      })
+      .catch((err) => {
+        console.log(err);
+      });    
+      
+      
                  
  
