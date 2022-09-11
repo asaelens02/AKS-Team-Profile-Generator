@@ -3,8 +3,8 @@
 const inquirer = require('inquirer');
 
 
-const generatePage = require('./src/page-template');
-const { writeFile, copyFile } = require('./utils/generate-site');
+//const generatePage = require('./src/page-template');
+//const { writeFile, copyFile } = require('./utils/generate-site');
 
 
 //Objects that have been tested
@@ -96,7 +96,7 @@ const addManager = () => {
         Team.push(manager);
 
         if(addEmployee){
-            return newEmp (Team);
+            return createEmployee (Team);
         }else{
             return Team;
         }
@@ -110,7 +110,7 @@ const addManager = () => {
         .prompt ([
             {
                 type:'list',
-                name:'job',
+                name:'role',
                 message: 'Please select title of new team member from list',
                 choices: ['Intern', 'Engineer'],
             },
@@ -132,7 +132,7 @@ const addManager = () => {
                 name:'id',
                 message: 'Please enter team member ID number',
                 validate:(idValue)=> {
-                    if (isNan (idValue)){
+                    if (isNaN(idValue)){
                         console.log ('invalid entry, please enter 4 digit ID');
                         return false;
                     }else{
@@ -140,32 +140,71 @@ const addManager = () => {
                     }
                 },
             },
+
+            //alternate questions for Engineer role and Intern role
+            {
+                type:'input',
+                name: 'github',
+                message: 'please enter team member github username',
+                when: (data) => data.role === 'Engineer',
+            
+                validate: (githubInput) =>{
+                    if (githubInput){
+                        return true;
+                    }else{
+                        console.log ('invalid entry, please enter github username');
+                        return false;
+                    }
+                },    
+            },
+            {
+                type: 'input',
+                name: 'school',
+                message: 'Please enter team member school',
+                when: (data) => data.role === 'Intern',
+
+                validate: (schoolEntry) => {
+                    if (schoolEntry) {
+                        return true;
+                    }else{
+                        console.log ('invalid entry, please enter school name');
+                    }
+                },
+            },
+            {
+                //confirm employee entry, inquire for more entries
+                type: 'confirm',
+                name:'addEmployee',
+                message:'Would you like to add another person to the team?',
+                default: false,
+            },
         ])
-        .then (({employee,id, email,role}) => {
-            if (role === 'Engineer'){
-                return inquirer
-                .prompt ([{
-                    type: 'input',
-                    name: 'github',
-                    message: 'Please enter employee github',
-                    validate: (gitInput) => {
-                        if(gitInput){
-                            return true;
-                        }else{
-                            console.log('invalid entry, please enter github');
-                            return false;
-                        }
-                    },
-                    {
-                        type: 'confirm',
-                        name:'addEmployee',
-                        message:'Would you like to add another person to the team?',
-                        default: false,
-                    
+
+        .then((employeeData) => {
+            let { name, id, email, role, github, school, addEmployee } =
+              employeeData;
+            let employee = {};
+            if (role === "Engineer") {
+              employee = new Engineer(name, id, email, github);
+            
+            } else if (role === "Intern") {
+              employee = new Intern(name, id, email, school);
+              
+            }
+            Team.push(employee);
+      //loops back through employee questions until all members added
+            if (addEmployee) {
+              return createEmployee(Team);
+            } else {
+
+                console.log(Team);
+              return Team;
+            }
+    })
+
+}
+    //calls initial function to begin questions in node 
+    addManager();                
                    
                  
-                    },
-                }]);                
-            }
-        )
-    
+ 
