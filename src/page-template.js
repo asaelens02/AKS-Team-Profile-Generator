@@ -105,5 +105,5 @@ function createManager(manager) {
     `;
   }
   
-  //Export so index.js can use generateHTML fxn
+
   module.exports = generatePage;
