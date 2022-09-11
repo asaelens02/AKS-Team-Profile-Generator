@@ -67,10 +67,10 @@ const addManager = () => {
         },
         {
             type:'input',
-            name:'office number',
+            name:'office',
             message: 'Please enter Manager office number',
-            validate: (officeValue)=> {
-                if (isNaN(officeValue)){
+            validate: (officeNumber)=> {
+                if (isNaN(officeNumber)){
                     console.log ('invalid entry, please enter Manager office number');
                     return false;
                 }else{
@@ -91,8 +91,8 @@ const addManager = () => {
     //use .then to use entered data to create manager in array and add new employees
 
     .then ((managerEntries)=> {
-        const {name, id, email, officeNumber, addEmployee} = managerEntries;
-        const manager = new Manager(name,email,id, officeNumber);
+        const {name, id, email, office, addEmployee} = managerEntries;
+        const manager = new Manager(name,email,id, office);
         Team.push(manager);
 
         if(addEmployee){
@@ -188,7 +188,7 @@ const addManager = () => {
               employee = new Engineer(name, id, email, github);
             
             } else if (role === "Intern") {
-              employee = new Intern(name, id, email, school);
+              employee = new Intern(name, id, email,school);
               
             }
             Team.push(employee);
